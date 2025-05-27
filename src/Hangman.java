@@ -2,18 +2,39 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Hangman extends JFrame {
-    private String word = "java";
-    private char[] guessed = {'_', '_', '_', '_'};
+    private List<String> words = new ArrayList<>();
+    private String word;
+    private char[] guessed;
     private int attemptsLeft = 6;
 
-    private JLabel wordLabel = new JLabel(String.valueOf(guessed));
+    private JLabel wordLabel;
     private JTextField guessField = new JTextField(1);
     private HangmanPanel hangmanPanel = new HangmanPanel();
 
     public Hangman() {
+        words.add("elephant");
+        words.add("guitar");
+        words.add("computer");
+        words.add("jungle");
+        words.add("puzzle");
+        words.add("mountain");
+        words.add("language");
+
+        Random rand = new Random();
+        word = words.get(rand.nextInt(words.size()));
+
+        guessed = new char[word.length()];
+        for (int i = 0; i < guessed.length; i++) {
+            guessed[i] = '_';
+        }
+
+        wordLabel = new JLabel(String.valueOf(guessed));
+
         setTitle("Hangman Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 400);
@@ -34,8 +55,9 @@ public class Hangman extends JFrame {
         add(hangmanPanel, BorderLayout.CENTER);
 
         guessButton.addActionListener(e -> {
-            if (guessField.getText().length() > 0) {
-                char guess = Character.toLowerCase(guessField.getText().charAt(0));
+            String text = guessField.getText().toLowerCase();
+            if (text.length() > 0) {
+                char guess = text.charAt(0);
                 guessField.setText("");
                 processGuess(guess);
             }
@@ -68,6 +90,7 @@ public class Hangman extends JFrame {
             System.exit(0);
         }
     }
+
     class HangmanPanel extends JPanel {
         private int attemptsLeft = 6;
 
@@ -79,6 +102,7 @@ public class Hangman extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+
             g.drawLine(50, 250, 150, 250);
             g.drawLine(100, 250, 100, 50);
             g.drawLine(100, 50, 180, 50);
@@ -98,5 +122,4 @@ public class Hangman extends JFrame {
                 g.drawLine(180, 170, 210, 200);
         }
     }
-
 }
