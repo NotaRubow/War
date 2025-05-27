@@ -24,6 +24,7 @@ public class Hangman extends JFrame {
         words.add("puzzle");
         words.add("mountain");
         words.add("language");
+        words.add("apple");
 
         Random rand = new Random();
         word = words.get(rand.nextInt(words.size()));
